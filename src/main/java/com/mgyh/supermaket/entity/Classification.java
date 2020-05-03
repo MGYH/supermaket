@@ -10,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "t_categories")
-public class Categories{
+public class Classification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -19,6 +19,9 @@ public class Categories{
 
     @ColumnDefault("0")
     private int parentId;
+
+    //层级树字符字符串
+    private String treeString;
 
     public int getId() {
         return id;
@@ -42,5 +45,13 @@ public class Categories{
 
     public void setParentId(int parentId) {
         this.parentId = parentId;
+    }
+
+    public String getTreeString() {
+        return treeString;
+    }
+
+    public void setTreeString(String treeString) {
+        this.treeString = treeString;
     }
 }
