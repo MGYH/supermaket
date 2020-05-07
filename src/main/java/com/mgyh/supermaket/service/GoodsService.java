@@ -1,5 +1,6 @@
 package com.mgyh.supermaket.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.mgyh.supermaket.entity.Goods;
 import com.mgyh.supermaket.repository.GoodsRepository;
 import com.mgyh.supermaket.repository.SearchRepository;
@@ -25,9 +26,18 @@ public class GoodsService {
         return goodsRepository.findByCode(code);
     }
 
-    @Transactional
-    public List<Goods> findAll(){
-        return searchRepository.commonSearch();
+
+    public Object findAll(JSONObject object, int pageNo, int pageSize){
+        String sql = "select g from Goods g where 1=1 ";
+        if(object.containsKey("name")){
+            sql+=" and name like :name";
+            object.put("name","%"+object.getString("name")+"%");
+        }
+        if(object.containsKey("treeString")){
+            sql+="treeString like :treeString";
+            object.put("treeString","%"+object.getString("treeString")+"%");
+        }
+        return searchRepository.commonSearch(sql,object,pageNo,pageSize);
     }
 
     @Transactional

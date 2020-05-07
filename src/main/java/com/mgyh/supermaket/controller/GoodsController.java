@@ -70,8 +70,8 @@ public class GoodsController {
 
     @PostMapping("/goods/findAll")
     @ResponseBody
-    public Object findAll(@RequestBody JSONObject object){
-        return new Result(goodsService.findAll());
+    public Object findAll(@RequestBody JSONObject object,int pageNo,int pageSize){
+        return new Result(goodsService.findAll(object,pageNo,pageSize));
     }
 
     @PostMapping("/goods/save")

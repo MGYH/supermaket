@@ -28,7 +28,7 @@ dependencies {
 	//alipay
 	implementation group: 'com.alipay.sdk', name: 'alipay-sdk-java', version: '4.9.5.ALL'
 	implementation 'com.alibaba:fastjson:1.2.47'
-	implementation group: 'org.hibernate', name: 'hibernate-core', version: '5.2.1.Final'
+	implementation group: 'org.hibernate', name: 'hibernate-core', version: '5.2.18.Final'
 	implementation group: 'com.alibaba', name: 'druid', version: '1.1.13'
 	runtimeOnly group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '7.4.0.jre8'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {

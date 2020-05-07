@@ -3,8 +3,8 @@ package com.mgyh.supermaket.service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.mgyh.supermaket.entity.Classification;
-import com.mgyh.supermaket.entity.Goods;
 import com.mgyh.supermaket.repository.ClassificationRepository;
+import com.mgyh.supermaket.repository.SearchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +21,22 @@ import java.util.Map;
 public class ClassificationService {
     @Autowired
     private ClassificationRepository classificationRepository;
+    @Autowired
+    private SearchRepository searchRepository;
 
-    public List<Classification> getList(){
-        return classificationRepository.findAll();
+    public JSONObject getList(JSONObject object,int pageNo,int pageSize){
+        String sql = "select c from Classification c where 1=1 ";
+        if(object.containsKey("name")){
+            sql+=" and name like :name";
+            object.put("name","%"+object.getString("name")+"%");
+        }
+        if(object.containsKey("treeString")){
+            sql+="treeString like :treeString";
+            object.put("treeString","%"+object.getString("treeString")+"%");
+        }
+        return searchRepository.commonSearch(sql,object,pageNo,pageSize);
     }
+
 
     public JSONArray getAll(){
         List<Classification> classificationList = classificationRepository.findAll();
@@ -39,7 +51,7 @@ public class ClassificationService {
             if(classification.getParentId() == parentId){
                 map = new HashMap<>();
                 map.put("label", classification.getName());
-                map.put("value", classification.getId());
+                map.put("value", classification.getId()+"");
                 if(getChildren(classification.getId(), classificationList).size() > 0) {
                     map.put("children", getChildren(classification.getId(), classificationList));
                 }
