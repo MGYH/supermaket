@@ -40,12 +40,11 @@ public class GoodsController {
     public Object sellGoods(@RequestBody JSONObject object){
         SellRecords sellRecords = new SellRecords();
         String authCode = object.getString("authCode");
-        String payment = object.getString("payment");
-        System.out.println(authCode+"=====================");
         JSONObject sellRecord = object.getJSONObject("sellRecord");;
         sellRecords.setTotalMoney(sellRecord.getString("totalMoney"));
         sellRecords.setChange(sellRecord.getString("change"));
         sellRecords.setPaid(sellRecord.getString("paid"));
+        sellRecords.setPayment(sellRecord.getString("payment"));
         List<SellRecordsDetail> detailList = new ArrayList<>();
         SellRecordsDetail detail;
         JSONArray goodsList = object.getJSONArray("goodsList");

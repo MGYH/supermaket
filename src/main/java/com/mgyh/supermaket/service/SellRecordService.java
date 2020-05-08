@@ -30,8 +30,10 @@ public class SellRecordService {
         for(SellRecordsDetail sellRecordsDetail : sellRecords.getDetailList()){
             sellRecordsDetailRepository.save(sellRecordsDetail);
         }
-        System.out.println(result.toString());
-        service.alipayTradePayService(authCode,sellRecords.getTotalMoney(),result.getId()+"test");
+        if(sellRecords.getPayment().equalsIgnoreCase("zfb")){
+            System.out.println(sellRecords.getPayment());
+            service.alipayTradePayService(authCode,sellRecords.getTotalMoney(),result.getId()+"test");
 
+        }
     }
 }
