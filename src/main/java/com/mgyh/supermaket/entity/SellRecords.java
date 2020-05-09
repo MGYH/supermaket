@@ -2,9 +2,6 @@ package com.mgyh.supermaket.entity;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -20,15 +17,15 @@ public class SellRecords {
     private int id;
 
     private String totalMoney;
-
-    private String change;
+    //找零    change是mysql关键字
+    private String changes;
 
     private String paid;
 
     @Column(updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date operateDate;
 
     private String operatorName;
@@ -89,12 +86,12 @@ public class SellRecords {
         this.detailList = detailList;
     }
 
-    public String getChange() {
-        return change;
+    public String getChanges() {
+        return changes;
     }
 
-    public void setChange(String change) {
-        this.change = change;
+    public void setChange(String changes) {
+        this.changes = changes;
     }
 
     public String getPaid() {
