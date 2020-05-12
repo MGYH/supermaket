@@ -27,8 +27,17 @@ public class GoodsService {
     }
 
 
-    public Object findAll(JSONObject object, int pageNo, int pageSize){
-        String sql = "select g from Goods g where 1=1 ";
+    public JSONObject getGoodsList(JSONObject object, int pageNo, int pageSize){
+        return searchRepository.commonSearch(getGoodsListSql(object),object,pageNo,pageSize);
+    }
+    public JSONObject getGoodsList(JSONObject object){
+        return searchRepository.commonSearch(getGoodsListSql(object),object);
+    }
+    public String getGoodsListSql(JSONObject object){
+        String sql = "select new map(g.id as id,g.code as code,g.name as name," +
+                "g.num as num,g.treeString as treeString,g.price as price," +
+                "g.shelfLife as shelfLife,shelfLifeUnit as shelfLifeUnit) " +
+                "from Goods g where 1=1 ";
         if(object.containsKey("name")){
             sql+=" and name like :name";
             object.put("name","%"+object.getString("name")+"%");
@@ -37,11 +46,23 @@ public class GoodsService {
             sql+="treeString like :treeString";
             object.put("treeString","%"+object.getString("treeString")+"%");
         }
-        return searchRepository.commonSearch(sql,object,pageNo,pageSize);
+        return sql;
     }
 
-    @Transactional
+    @Transactional(rollbackOn = Exception.class)
     public void save(Goods goods){
+        goodsRepository.save(goods);
+    }
+
+    public void entryGoods(String code, String num){
+        Goods goods = goodsRepository.findByCode(code).get(0);
+        goods.setNum((Integer.valueOf(goods.getNum())+Integer.valueOf(num))+"");
+        goodsRepository.save(goods);
+    }
+
+    public void sellGoods(String code, String num){
+        Goods goods = goodsRepository.findByCode(code).get(0);
+        goods.setNum((Integer.valueOf(goods.getNum())-Integer.valueOf(num))+"");
         goodsRepository.save(goods);
     }
 }

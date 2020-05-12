@@ -31,7 +31,6 @@ public class GoodsController {
     @GetMapping("/goods/getGoodsByCode")
     @ResponseBody
     public Object getGoodsByCode(@RequestParam(value = "goodCode")String code){
-        System.out.println("===========");
         return new Result(goodsService.getGoodsByCode(code));
     }
 
@@ -41,9 +40,9 @@ public class GoodsController {
         SellRecords sellRecords = new SellRecords();
         String authCode = object.getString("authCode");
         JSONObject sellRecord = object.getJSONObject("sellRecord");;
-        sellRecords.setTotalMoney(sellRecord.getString("totalMoney"));
-        sellRecords.setChange(sellRecord.getString("change"));
-        sellRecords.setPaid(sellRecord.getString("paid"));
+        sellRecords.setTotalMoney(sellRecord.getBigDecimal("totalMoney"));
+        sellRecords.setChanges(sellRecord.getBigDecimal("change"));
+        sellRecords.setPaid(sellRecord.getBigDecimal("paid"));
         sellRecords.setPayment(sellRecord.getString("payment"));
         List<SellRecordsDetail> detailList = new ArrayList<>();
         SellRecordsDetail detail;
@@ -54,7 +53,8 @@ public class GoodsController {
             detail = new SellRecordsDetail();
             detail.setGoodsCode(good.getString("code"));
             detail.setGoodsNum(good.getString("num"));
-            detail.setSellPrice(good.getString("price"));
+            detail.setGoodsName(good.getString("name"));
+            detail.setSellPrice(good.getBigDecimal("price"));
             detail.setSellRecords(sellRecords);
             detailList.add(detail);
         }
@@ -70,7 +70,7 @@ public class GoodsController {
     @PostMapping("/goods/findAll")
     @ResponseBody
     public Object findAll(@RequestBody JSONObject object,int pageNo,int pageSize){
-        return new Result(goodsService.findAll(object,pageNo,pageSize));
+        return new Result(goodsService.getGoodsList(object,pageNo,pageSize));
     }
 
     @PostMapping("/goods/save")

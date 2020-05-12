@@ -7,6 +7,9 @@ import com.mgyh.supermaket.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * @author MGYH
+ */
 @RestController
 @CrossOrigin
 public class ClassificationController {
@@ -16,7 +19,6 @@ public class ClassificationController {
     @PostMapping("/classification/findAll")
     @ResponseBody
     public Result findAll(@RequestBody JSONObject object,int pageNo,int pageSize){
-        System.out.println(pageNo+" "+pageSize);
         return new Result(classificationService.getList(object,pageNo,pageSize));
     }
 
@@ -28,7 +30,7 @@ public class ClassificationController {
         return new Result();
     }
 
-    @GetMapping("classification/getOption")
+    @GetMapping("/classification/getOption")
     public Result getOption(){
         return new Result(classificationService.getAll());
     }

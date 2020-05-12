@@ -8,25 +8,25 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name="t_sellRecordsDetail")
-public class SellRecordsDetail {
+@Table(name="t_entryRecordsDetail")
+public class EntryRecordsDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int detailId;
 
-    @ManyToOne(targetEntity = SellRecords.class)
+    @ManyToOne(targetEntity = EntryRecords.class)
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinColumn(name = "recordId")
-    private SellRecords sellRecords;
+    private EntryRecords entryRecords;
 
     private String goodsCode;
 
-    private String goodsNum;
-
     private String goodsName;
 
+    private String goodsNum;
+
     @Column(precision = 19, scale = 2)
-    private BigDecimal sellPrice;
+    private BigDecimal purchasePrice;
 
     public int getDetailId() {
         return detailId;
@@ -36,12 +36,12 @@ public class SellRecordsDetail {
         this.detailId = id;
     }
 
-    public SellRecords getSellRecords() {
-        return sellRecords;
+    public EntryRecords getEntryRecords() {
+        return entryRecords;
     }
 
-    public void setSellRecords(SellRecords sellRecords) {
-        this.sellRecords = sellRecords;
+    public void setEntryRecords(EntryRecords entryRecords) {
+        this.entryRecords = entryRecords;
     }
 
     public String getGoodsCode() {
@@ -60,19 +60,19 @@ public class SellRecordsDetail {
         this.goodsNum = goodsNum;
     }
 
-    public BigDecimal getSellPrice() {
-        return sellPrice;
-    }
-
-    public void setSellPrice(BigDecimal sellPrice) {
-        this.sellPrice = sellPrice;
-    }
-
     public String getGoodsName() {
         return goodsName;
     }
 
     public void setGoodsName(String goodsName) {
         this.goodsName = goodsName;
+    }
+
+    public BigDecimal getPurchasePrice() {
+        return purchasePrice;
+    }
+
+    public void setPurchasePrice(BigDecimal purchasePrice) {
+        this.purchasePrice = purchasePrice;
     }
 }

@@ -3,6 +3,7 @@ package com.mgyh.supermaket.entity;
 import org.hibernate.annotations.GeneratorType;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "t_goods")
@@ -11,19 +12,25 @@ public class Goods {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Version
+    private int version;
+
     private String code;
 
     private String name;
 
     private String num;
 
-    private String type;
+    private String treeString;
 
-    private String purchasePrice;
+    @Column(precision = 19, scale = 2)
+    private BigDecimal purchasePrice;
+    @Column(precision = 19, scale = 2)
+    private BigDecimal price;
 
-    private String price;
+    private int shelfLife;
 
-    private String shelfLife;
+    private String shelfLifeUnit;
 
     public int getId() {
         return id;
@@ -49,12 +56,12 @@ public class Goods {
         this.num = num;
     }
 
-    public String getType() {
-        return type;
+    public String getTreeString() {
+        return treeString;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTreeString(String treeString) {
+        this.treeString = treeString;
     }
 
     public String getCode() {
@@ -65,27 +72,43 @@ public class Goods {
         this.code = code;
     }
 
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
-    public String getPurchasePrice() {
+    public BigDecimal getPurchasePrice() {
         return purchasePrice;
     }
 
-    public void setPurchasePrice(String purchasePrice) {
+    public void setPurchasePrice(BigDecimal purchasePrice) {
         this.purchasePrice = purchasePrice;
     }
 
-    public String getShelfLife() {
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public int getShelfLife() {
         return shelfLife;
     }
 
-    public void setShelfLife(String shelfLife) {
+    public void setShelfLife(int shelfLife) {
         this.shelfLife = shelfLife;
+    }
+
+    public String getShelfLifeUnit() {
+        return shelfLifeUnit;
+    }
+
+    public void setShelfLifeUnit(String shelfLifeUnit) {
+        this.shelfLifeUnit = shelfLifeUnit;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 }

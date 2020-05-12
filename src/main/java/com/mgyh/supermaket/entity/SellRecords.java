@@ -5,6 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,11 +17,12 @@ public class SellRecords {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String totalMoney;
-    //找零    change是mysql关键字
-    private String changes;
-
-    private String paid;
+    @Column(precision = 19, scale = 2)
+    private BigDecimal totalMoney;
+    @Column(precision = 19, scale = 2)
+    private BigDecimal changes;
+    @Column(precision = 19, scale = 2)
+    private BigDecimal paid;
 
     @Column(updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -44,14 +46,6 @@ public class SellRecords {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getTotalMoney() {
-        return totalMoney;
-    }
-
-    public void setTotalMoney(String totalMoney) {
-        this.totalMoney = totalMoney;
     }
 
     public Date getOperateDate() {
@@ -86,28 +80,36 @@ public class SellRecords {
         this.detailList = detailList;
     }
 
-    public String getChanges() {
-        return changes;
-    }
-
-    public void setChange(String changes) {
-        this.changes = changes;
-    }
-
-    public String getPaid() {
-        return paid;
-    }
-
-    public void setPaid(String paid) {
-        this.paid = paid;
-    }
-
     public String getPayment() {
         return payment;
     }
 
     public void setPayment(String payment) {
         this.payment = payment;
+    }
+
+    public BigDecimal getTotalMoney() {
+        return totalMoney;
+    }
+
+    public void setTotalMoney(BigDecimal totalMoney) {
+        this.totalMoney = totalMoney;
+    }
+
+    public BigDecimal getChanges() {
+        return changes;
+    }
+
+    public void setChanges(BigDecimal changes) {
+        this.changes = changes;
+    }
+
+    public BigDecimal getPaid() {
+        return paid;
+    }
+
+    public void setPaid(BigDecimal paid) {
+        this.paid = paid;
     }
 
     @Override

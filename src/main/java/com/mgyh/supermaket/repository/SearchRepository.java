@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,22 @@ import java.util.Map;
 public class SearchRepository {
     @PersistenceContext
     private EntityManager entityManger;
+
+    public JSONObject commonSearch(String sql, JSONObject object){
+        JSONObject result = new JSONObject();
+        result.put("list",getList(object, sql));
+        return result;
+    }
+
+    private List<HashMap<String,String>> getList(JSONObject object, String sql) {
+        Query sqlQuery = entityManger.createQuery(sql);
+        for (Map.Entry<String, Object> entry : object.entrySet()) {
+            sqlQuery.setParameter(entry.getKey(), entry.getValue());
+        }
+        List<HashMap<String,String>> list = sqlQuery.getResultList();
+        return list;
+    }
+
     public JSONObject commonSearch(String sql, JSONObject object,int pageNo,int pageSize){
         JSONObject result = new JSONObject();
         result.put("list",getList(object, sql,pageNo, pageSize));
@@ -29,15 +46,14 @@ public class SearchRepository {
         return result;
     }
 
-    private List getList(JSONObject object, String sql, int pageNo,int pageSize) {
+    private List<HashMap<String,String>> getList(JSONObject object, String sql, int pageNo,int pageSize) {
         Query sqlQuery = entityManger.createQuery(sql);
         sqlQuery.setFirstResult((pageNo-1)*pageSize)
                 .setMaxResults(pageSize);
         for (Map.Entry<String, Object> entry : object.entrySet()) {
             sqlQuery.setParameter(entry.getKey(), entry.getValue());
         }
-        List list = sqlQuery.getResultList();
-        System.out.println(list);
+        List<HashMap<String,String>> list = sqlQuery.getResultList();
         return list;
     }
 

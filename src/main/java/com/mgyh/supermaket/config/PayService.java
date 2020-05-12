@@ -8,6 +8,7 @@ import com.alipay.easysdk.factory.Factory;
 import com.alipay.easysdk.kernel.BaseClient.Config;
 
 
+import java.math.BigDecimal;
 import java.util.*;
 
 
@@ -19,28 +20,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 
-/*
-<dependency>
-	<groupId>com.alibaba</groupId>
-	<artifactId>fastjson</artifactId>
-	<version>1.2.50</version>
-</dependency>
-<dependency>
-	<groupId>com.alipay.sdk</groupId>
-	<artifactId>alipay-sdk-java</artifactId>
-	<version>3.3.49.ALL</version>
-</dependency>
-*/
 @Component
 public class PayService {
     public static final Logger   logger = LoggerFactory.getLogger(PayService.class);
-//	@Autowired
-//	public static AlipayConfig alipayConfig;
 
-	public Object alipayTradePayService(String authCode, String totalMoeny, String outTradeNo) throws Exception {
+	public Object alipayTradePayService(String authCode, BigDecimal totalMoeny, String outTradeNo) throws Exception {
 		// 1. 设置参数（全局只需设置一次）
 		Factory.setOptions(getOptions());
-		AlipayTradePayResponse response = Factory.Payment.FaceToFace().pay("我在测试", outTradeNo, totalMoeny, authCode);
+		AlipayTradePayResponse response = Factory.Payment.FaceToFace().pay("我在测试", outTradeNo, String.valueOf(totalMoeny), authCode);
 		// 3. 处理响应或异常
 		if ("10000".equals(response.code)) {
 			System.out.println("调用成功");

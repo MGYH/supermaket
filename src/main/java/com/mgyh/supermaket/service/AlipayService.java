@@ -18,7 +18,6 @@ import java.util.Map;
  * @date 2020/3/29
  */
 @Service
-@Transactional
 public class AlipayService {
 //    @Autowired
 //    public PayService service;

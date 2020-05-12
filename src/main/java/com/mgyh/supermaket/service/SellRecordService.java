@@ -23,17 +23,19 @@ public class SellRecordService {
     @Autowired
     public PayService service;
 
+    @Autowired
+    private GoodsService goodsService;
 
-    @Transactional
+
+    @Transactional(rollbackFor = Exception.class)
     public void saveRecord(SellRecords sellRecords, String authCode) throws Exception {
         SellRecords result = sellRecordsRepository.save(sellRecords);
         for(SellRecordsDetail sellRecordsDetail : sellRecords.getDetailList()){
+            goodsService.sellGoods(sellRecordsDetail.getGoodsCode(),sellRecordsDetail.getGoodsNum());
             sellRecordsDetailRepository.save(sellRecordsDetail);
         }
         if(sellRecords.getPayment().equalsIgnoreCase("zfb")){
-            System.out.println(sellRecords.getPayment());
             service.alipayTradePayService(authCode,sellRecords.getTotalMoney(),result.getId()+"test");
-
         }
     }
 }

@@ -7,8 +7,8 @@ import com.mgyh.supermaket.repository.ClassificationRepository;
 import com.mgyh.supermaket.repository.SearchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,7 +62,7 @@ public class ClassificationService {
         return array;
     }
 
-    @Transactional
+   @Transactional(rollbackFor = Exception.class)
     public void save(Classification classification){
         classificationRepository.save(classification);
     }
