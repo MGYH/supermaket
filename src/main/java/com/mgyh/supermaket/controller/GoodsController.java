@@ -25,8 +25,7 @@ import java.util.List;
 public class GoodsController {
     @Autowired
     private GoodsService goodsService;
-    @Autowired
-    private SellRecordService sellRecordService;
+
 
     @GetMapping("/goods/getGoodsByCode")
     @ResponseBody
@@ -34,38 +33,6 @@ public class GoodsController {
         return new Result(goodsService.getGoodsByCode(code));
     }
 
-    @PostMapping("/goods/sellGood")
-    @ResponseBody
-    public Object sellGoods(@RequestBody JSONObject object){
-        SellRecords sellRecords = new SellRecords();
-        String authCode = object.getString("authCode");
-        JSONObject sellRecord = object.getJSONObject("sellRecord");;
-        sellRecords.setTotalMoney(sellRecord.getBigDecimal("totalMoney"));
-        sellRecords.setChanges(sellRecord.getBigDecimal("change"));
-        sellRecords.setPaid(sellRecord.getBigDecimal("paid"));
-        sellRecords.setPayment(sellRecord.getString("payment"));
-        List<SellRecordsDetail> detailList = new ArrayList<>();
-        SellRecordsDetail detail;
-        JSONArray goodsList = object.getJSONArray("goodsList");
-        JSONObject good;
-        for(int i = 0; i < goodsList.size(); i++){
-            good = goodsList.getJSONObject(i);
-            detail = new SellRecordsDetail();
-            detail.setGoodsCode(good.getString("code"));
-            detail.setGoodsNum(good.getString("num"));
-            detail.setGoodsName(good.getString("name"));
-            detail.setSellPrice(good.getBigDecimal("price"));
-            detail.setSellRecords(sellRecords);
-            detailList.add(detail);
-        }
-        sellRecords.setDetailList(detailList);
-        try {
-            sellRecordService.saveRecord(sellRecords, authCode);
-        } catch (Exception e) {
-            return new Result();
-        }
-        return new Result();
-    }
 
     @PostMapping("/goods/findAll")
     @ResponseBody
@@ -76,8 +43,15 @@ public class GoodsController {
     @PostMapping("/goods/save")
     @ResponseBody
     public Object save(@RequestBody JSONObject object){
-        System.out.println(object.toJSONString());
         goodsService.save(object.getObject("good",Goods.class));
         return new Result();
+    }
+
+
+    @PostMapping("/goods/getPieChart")
+    @ResponseBody
+    public Object getPieChart(@RequestBody JSONObject object){
+        System.out.println(object.toJSONString());
+        return new Result(goodsService.getPieChart(object.getJSONObject("from")));
     }
 }

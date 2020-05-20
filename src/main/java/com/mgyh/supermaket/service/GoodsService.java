@@ -38,6 +38,9 @@ public class GoodsService {
                 "g.num as num,g.treeString as treeString,g.price as price," +
                 "g.shelfLife as shelfLife,shelfLifeUnit as shelfLifeUnit) " +
                 "from Goods g where 1=1 ";
+        if(object.containsKey("code")){
+            sql+=" and code = :code";
+        }
         if(object.containsKey("name")){
             sql+=" and name like :name";
             object.put("name","%"+object.getString("name")+"%");
@@ -62,7 +65,15 @@ public class GoodsService {
 
     public void sellGoods(String code, String num){
         Goods goods = goodsRepository.findByCode(code).get(0);
-        goods.setNum((Integer.valueOf(goods.getNum())-Integer.valueOf(num))+"");
+        goods.setNum((Integer.valueOf(goods.getNum())-Integer.valueOf(num)> 0 ? Integer.valueOf(goods.getNum())-Integer.valueOf(num):0)+"");
         goodsRepository.save(goods);
+    }
+
+    public JSONObject getPieChart(JSONObject object) {
+        String group = object.getString("group");
+        String sql = "select r.name as name, r.value as value from ( select "+group+" as name, cast(IFNULL(sum(g.num),0) as char) as value " +
+                "from t_goods g left join t_categories tc on g.treeString like concat('%',tc.id) " +
+                "group by "+group+" ) r order by r.value desc";
+        return searchRepository.sqlSearch(sql,new JSONObject());
     }
 }

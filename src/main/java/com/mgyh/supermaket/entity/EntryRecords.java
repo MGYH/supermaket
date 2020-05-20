@@ -21,7 +21,7 @@ public class EntryRecords {
     private BigDecimal totalMoney;
 
     @Column(updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date operateDate;

@@ -1,5 +1,6 @@
 package com.mgyh.supermaket.entity;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.GeneratorType;
 
 import javax.persistence.*;
@@ -19,6 +20,7 @@ public class Goods {
 
     private String name;
 
+    @ColumnDefault("0")
     private String num;
 
     private String treeString;

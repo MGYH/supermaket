@@ -45,7 +45,6 @@ public class ReportController {
     public void export(@RequestBody JSONObject object,HttpServletResponse response, String methodName) throws IOException, ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         // 获取参数
         JSONObject from = object.getJSONObject("form");
-        JSONObject exportObject = object.getJSONObject("exportObject");
         // 响应头设置
         response.setContentType("application/vnd.ms-excel");
         response.setCharacterEncoding("utf-8");
@@ -54,7 +53,10 @@ public class ReportController {
         Locale locale = Locale.getDefault();
         ResourceBundle bundle = ResourceBundle.getBundle("exportExcel",locale );
         // 通过反射机制获取对应类
-        Class c = Class.forName(bundle.getString(methodName));
+        Class c = Class.forName(bundle.getString(methodName+"_bean"));
+        JSONObject exportObject = new JSONObject(8,true);
+        exportObject = JSONObject.parseObject(bundle.getString(methodName+"_exportObject"));
+        System.out.println(exportObject);
         // 获取对应方法
         Method method = c.getDeclaredMethod(methodName,JSONObject.class);
         // 通过bean工程获取的bean,执行方法

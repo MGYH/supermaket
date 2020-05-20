@@ -3,9 +3,12 @@ package com.mgyh.supermaket.entity;
 
 
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Entity
 @Table(name="t_entryRecordsDetail")
@@ -27,6 +30,12 @@ public class EntryRecordsDetail {
 
     @Column(precision = 19, scale = 2)
     private BigDecimal purchasePrice;
+
+    @Column(updatable = false)
+    @Temporal(TemporalType.DATE)
+    @CreationTimestamp
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    private Date manufactureDate;
 
     public int getDetailId() {
         return detailId;
@@ -74,5 +83,13 @@ public class EntryRecordsDetail {
 
     public void setPurchasePrice(BigDecimal purchasePrice) {
         this.purchasePrice = purchasePrice;
+    }
+
+    public Date getManufactureDate() {
+        return manufactureDate;
+    }
+
+    public void setManufactureDate(Date manufactureDate) {
+        this.manufactureDate = manufactureDate;
     }
 }

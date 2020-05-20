@@ -3,10 +3,9 @@ package com.mgyh.supermaket.util;
 import com.alibaba.fastjson.JSONObject;
 
 public class Result {
-//            map1.put("code",20000);
-//        map1.put("data",object);
 
     private int code;
+    private String message;
     private Object data;
 
     public Result(){
@@ -29,6 +28,12 @@ public class Result {
         setData(object);
     }
 
+    public Result(int code,String message,Object object){
+        setCode(code);
+        setMessage(message);
+        setData(object);
+    }
+
     public int getCode() {
         return code;
     }
@@ -43,5 +48,13 @@ public class Result {
 
     public void setData(Object object) {
         this.data = object;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
