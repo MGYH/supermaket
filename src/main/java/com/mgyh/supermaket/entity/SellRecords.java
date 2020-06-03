@@ -36,6 +36,9 @@ public class SellRecords {
 
     private String payment;
 
+    @Column(precision = 19, scale = 2)
+    private BigDecimal totalPurchaseMoney;
+
     @OneToMany(targetEntity = SellRecordsDetail.class,mappedBy="sellRecords")
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     private List<SellRecordsDetail> detailList = new ArrayList<SellRecordsDetail>();
@@ -112,15 +115,11 @@ public class SellRecords {
         this.paid = paid;
     }
 
-    @Override
-    public String toString() {
-        return "SellRecords{" +
-                "id=" + id +
-                ", totalMoney='" + totalMoney + '\'' +
-                ", operateDate=" + operateDate +
-                ", operatorName='" + operatorName + '\'' +
-                ", operatorId='" + operatorId + '\'' +
-                ", detailList=" + detailList +
-                '}';
+    public BigDecimal getTotalPurchaseMoney() {
+        return totalPurchaseMoney;
+    }
+
+    public void setTotalPurchaseMoney(BigDecimal totalPurchaseMoney) {
+        this.totalPurchaseMoney = totalPurchaseMoney;
     }
 }

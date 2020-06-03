@@ -17,6 +17,7 @@ public class MyFastJsonConfig {
         FastJsonConfig config = new FastJsonConfig();
         //将Goods类添加到autotype白名单
         ParserConfig.getGlobalInstance().addAccept("com.mgyh.supermaket.entity.Goods");
+        ParserConfig.getGlobalInstance().addAccept("com.mgyh.supermaket.entity.User");
         config.setDateFormat("yyyy-MM-dd hh:mm:ss");
         config.setCharset(Charset.forName("UTF-8"));
         config.setSerializerFeatures(

@@ -21,7 +21,7 @@ public class Goods {
     private String name;
 
     @ColumnDefault("0")
-    private String num;
+    private int num;
 
     private String treeString;
 
@@ -50,11 +50,11 @@ public class Goods {
         this.name = name;
     }
 
-    public String getNum() {
+    public int getNum() {
         return num;
     }
 
-    public void setNum(String num) {
+    public void setNum(int num) {
         this.num = num;
     }
 

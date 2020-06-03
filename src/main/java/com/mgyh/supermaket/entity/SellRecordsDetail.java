@@ -21,12 +21,17 @@ public class SellRecordsDetail {
 
     private String goodsCode;
 
-    private String goodsNum;
+    private String entryCode;
+
+    private int goodsNum;
 
     private String goodsName;
 
     @Column(precision = 19, scale = 2)
     private BigDecimal sellPrice;
+
+    @Column(precision = 19, scale = 2)
+    private BigDecimal purchasePrice;
 
     public int getDetailId() {
         return detailId;
@@ -52,11 +57,11 @@ public class SellRecordsDetail {
         this.goodsCode = goodsCode;
     }
 
-    public String getGoodsNum() {
+    public int getGoodsNum() {
         return goodsNum;
     }
 
-    public void setGoodsNum(String goodsNum) {
+    public void setGoodsNum(int goodsNum) {
         this.goodsNum = goodsNum;
     }
 
@@ -74,5 +79,21 @@ public class SellRecordsDetail {
 
     public void setGoodsName(String goodsName) {
         this.goodsName = goodsName;
+    }
+
+    public String getEntryCode() {
+        return entryCode;
+    }
+
+    public void setEntryCode(String entryCode) {
+        this.entryCode = entryCode;
+    }
+
+    public BigDecimal getPurchasePrice() {
+        return purchasePrice;
+    }
+
+    public void setPurchasePrice(BigDecimal purchasePrice) {
+        this.purchasePrice = purchasePrice;
     }
 }

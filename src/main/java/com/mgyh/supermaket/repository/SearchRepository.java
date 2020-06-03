@@ -31,6 +31,12 @@ public class SearchRepository {
         result.put("list",getList(object, sql));
         return result;
     }
+
+    public List sqlSearch(String sql){
+        JSONObject result = new JSONObject();
+        return getSQLList(new JSONObject(),sql);
+    }
+
     public JSONObject sqlSearch(String sql, JSONObject object,int pageNo,int pageSize){
         JSONObject result = new JSONObject();
         result.put("list",getSQLList(object, sql,pageNo, pageSize));

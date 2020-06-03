@@ -61,6 +61,7 @@ public class ReportController {
         Method method = c.getDeclaredMethod(methodName,JSONObject.class);
         // 通过bean工程获取的bean,执行方法
         JSONObject result = (JSONObject) method.invoke(BeanUtil.getBean(c), from);
+        System.out.println(result.getObject("list",List.class)+"=========");
         excelUtil.webDownload(exportObject, result.getObject("list",List.class),response);
     }
 }

@@ -27,6 +27,10 @@ public class Result {
         setCode(code);
         setData(object);
     }
+    public Result(int code,String message){
+        setCode(code);
+        setMessage(message);
+    }
 
     public Result(int code,String message,Object object){
         setCode(code);

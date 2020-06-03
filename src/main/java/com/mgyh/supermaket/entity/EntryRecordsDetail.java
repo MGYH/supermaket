@@ -26,7 +26,11 @@ public class EntryRecordsDetail {
 
     private String goodsName;
 
-    private String goodsNum;
+    private int goodsNum;
+
+    private String entryCode;
+
+    private int currentNum;
 
     @Column(precision = 19, scale = 2)
     private BigDecimal purchasePrice;
@@ -61,12 +65,20 @@ public class EntryRecordsDetail {
         this.goodsCode = goodsCode;
     }
 
-    public String getGoodsNum() {
+    public int getGoodsNum() {
         return goodsNum;
     }
 
-    public void setGoodsNum(String goodsNum) {
+    public void setGoodsNum(int goodsNum) {
         this.goodsNum = goodsNum;
+    }
+
+    public int getCurrentNum() {
+        return currentNum;
+    }
+
+    public void setCurrentNum(int currentNum) {
+        this.currentNum = currentNum;
     }
 
     public String getGoodsName() {
@@ -91,5 +103,13 @@ public class EntryRecordsDetail {
 
     public void setManufactureDate(Date manufactureDate) {
         this.manufactureDate = manufactureDate;
+    }
+
+    public String getEntryCode() {
+        return entryCode;
+    }
+
+    public void setEntryCode(String entryCode) {
+        this.entryCode = entryCode;
     }
 }

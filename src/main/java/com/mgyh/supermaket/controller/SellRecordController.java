@@ -9,6 +9,7 @@ import com.mgyh.supermaket.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,16 +37,21 @@ public class SellRecordController {
         SellRecordsDetail detail;
         JSONArray goodsList = object.getJSONArray("goodsList");
         JSONObject good;
+        BigDecimal purchase = BigDecimal.valueOf(0.00);
         for(int i = 0; i < goodsList.size(); i++){
             good = goodsList.getJSONObject(i);
             detail = new SellRecordsDetail();
+            purchase.add(good.getBigDecimal("purchasePrice").multiply(BigDecimal.valueOf(good.getInteger("num")))) ;
             detail.setGoodsCode(good.getString("code"));
-            detail.setGoodsNum(good.getString("num"));
+            detail.setEntryCode(good.getString("entryCode"));
+            detail.setGoodsNum(good.getInteger("num"));
             detail.setGoodsName(good.getString("name"));
             detail.setSellPrice(good.getBigDecimal("price"));
+            detail.setPurchasePrice(good.getBigDecimal("purchasePrice"));
             detail.setSellRecords(sellRecords);
             detailList.add(detail);
         }
+        sellRecords.setTotalPurchaseMoney(purchase);
         sellRecords.setDetailList(detailList);
         try {
             sellRecordService.saveRecord(sellRecords, authCode);
@@ -59,6 +65,18 @@ public class SellRecordController {
     @ResponseBody
     public Object getPieChart(@RequestBody JSONObject object) throws ParseException {
         return new Result(sellRecordService.getPieChart(object.getJSONObject("form")));
+    }
+
+    @PostMapping("/sell/typeReport")
+    @ResponseBody
+    public Object typeReport(@RequestBody JSONObject object) throws ParseException {
+        return new Result(sellRecordService.getReport(object));
+    }
+
+    @PostMapping("/sell/getBarChart")
+    @ResponseBody
+    public Object getBarChart(@RequestBody JSONObject object) throws ParseException {
+        return new Result(sellRecordService.getBarChartData(object.getJSONObject("form")));
     }
 
     @PostMapping("/sell/findAll")

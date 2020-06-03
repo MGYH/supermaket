@@ -33,6 +33,11 @@ public class GoodsController {
         return new Result(goodsService.getGoodsByCode(code));
     }
 
+    @GetMapping("/goods/getGoodsByEntryCode")
+    @ResponseBody
+    public Object getGoodsByEntryCode(@RequestParam(value = "entryCode")String code){
+        return new Result(goodsService.getGoodsByEntryCode(code));
+    }
 
     @PostMapping("/goods/findAll")
     @ResponseBody

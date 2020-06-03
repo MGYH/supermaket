@@ -26,6 +26,14 @@ public class GoodsService {
         return goodsRepository.findByCode(code);
     }
 
+    public List getGoodsByEntryCode(String code){
+        String sql = "select g.code as code,g.name as name,g.price as price, te.entryCode as entryCode,te.detailId as id," +
+                "te.purchasePrice as purchasePrice " +
+                " from t_goods g" +
+                " left join t_EntryRecordsDetail te on g.code = te.goodsCode "+
+                "where te.entryCode = "+code;
+        return searchRepository.sqlSearch(sql);
+    }
 
     public JSONObject getGoodsList(JSONObject object, int pageNo, int pageSize){
         return searchRepository.commonSearch(getGoodsListSql(object),object,pageNo,pageSize);
@@ -35,7 +43,7 @@ public class GoodsService {
     }
     public String getGoodsListSql(JSONObject object){
         String sql = "select new map(g.id as id,g.code as code,g.name as name," +
-                "g.num as num,g.treeString as treeString,g.price as price," +
+                "g.num as num,g.treeString as treeString,g.price as price,g.version as version," +
                 "g.shelfLife as shelfLife,shelfLifeUnit as shelfLifeUnit) " +
                 "from Goods g where 1=1 ";
         if(object.containsKey("code")){
@@ -46,7 +54,7 @@ public class GoodsService {
             object.put("name","%"+object.getString("name")+"%");
         }
         if(object.containsKey("treeString")){
-            sql+="treeString like :treeString";
+            sql+=" and treeString like :treeString";
             object.put("treeString","%"+object.getString("treeString")+"%");
         }
         return sql;
@@ -57,15 +65,16 @@ public class GoodsService {
         goodsRepository.save(goods);
     }
 
-    public void entryGoods(String code, String num){
+    @Transactional(rollbackOn = Exception.class)
+    public void entryGoods(String code, int num){
         Goods goods = goodsRepository.findByCode(code).get(0);
-        goods.setNum((Integer.valueOf(goods.getNum())+Integer.valueOf(num))+"");
+        goods.setNum(goods.getNum() + num);
         goodsRepository.save(goods);
     }
 
-    public void sellGoods(String code, String num){
+    public void sellGoods(String code, int num){
         Goods goods = goodsRepository.findByCode(code).get(0);
-        goods.setNum((Integer.valueOf(goods.getNum())-Integer.valueOf(num)> 0 ? Integer.valueOf(goods.getNum())-Integer.valueOf(num):0)+"");
+        goods.setNum(goods.getNum()-num > 0 ? goods.getNum()-num : 0);
         goodsRepository.save(goods);
     }
 
